@@ -15,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         //The following checks if the username has been used already
         // Prepare a select statement
-        $sql = "SELECT user_id FROM UserAccount WHERE user_name = ?";
+        $sql = "SELECT id FROM UserAccount WHERE username = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if ($emailDomain[count($emailDomain)-1] == "edu") {
                 //The following checks if the email has been used already.
                 //Prepare sql statement
-                $sql = "SELECT user_id FROM UserAccount WHERE email = ?";
+                $sql = "SELECT id FROM UserAccount WHERE email = ?";
                 
                 if($stmt = mysqli_prepare($link, $sql)){
                     // Bind variables to the prepared statement as parameters
@@ -210,8 +210,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     * At least one special character.<br>
                     * At least one uppercase and one lowercase letter.</label>
                 </div>
-                <div> 
+                <div class="form-group <?php echo (!empty($school_err)) ? 'has-error' : ''; ?>">
                     <label style="color:white;" for="campus">Select Your Campus:</label><br />
+                    <span class="help-block"><?php echo $school_err; ?></span>
                         <select name="campus" id="campus" >
                             <option value="select"> -----------------Select One-----------------</option>
                             <option value="csuf">
