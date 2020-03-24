@@ -106,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <nav style="vertical-align:middle">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <img src="img/logo3.png" height="85" width="300" style="align-self:center;" />
+                        <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                     </div>
                     <a id="btnSignin" href="welcome_page.html" class="btn btn-danger navbar-btn"
                         style="float: right; margin-top: 30px; margin-right: 30px;">Sign
