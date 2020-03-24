@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         {
             //Check if email ends in "edu"
             $emailDomain = explode(".", trim($_POST["email"]));
-            if ($emailDomain[count($emailDomain)-1] == "edu") {
+            if ($emailDomain[count($emailDomain)-1] == "com") {
                 //The following checks if the email has been used already.
                 //Prepare sql statement
                 $sql = "SELECT user_id FROM UserAccount WHERE email = ?";
@@ -91,17 +91,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
-    } elseif(strlen(trim($_POST["password"])) < 8){
+    } elseif(strlen(trim($_POST["password"])) < 1){
         $password_err = "Password must contain at least eight characters.";
     } elseif(!preg_match('~[0-9]~', trim($_POST["password"]))){
         $password_err = "Password must contain at least one number.";
-    } elseif(!preg_match('/[\'^£$%&*()}{@#~?!><>,|=_+¬-]/', trim($_POST["password"]))){
+    } /*elseif(!preg_match('/[\'^£$%&*()}{@#~?!><>,|=_+¬-]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one special character.";
     } elseif(!preg_match('/[A-Z]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one uppercase letter.";
     } elseif(!preg_match('/[a-z]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one lowercase letter.";
-    } else{
+    } */else{
         $password = trim($_POST["password"]);
     }
     
@@ -169,7 +169,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="navbar-header">
                         <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                     </div>
-                    <a id="btnSignin" href="sign_in.html" class="btn btn-danger navbar-btn" style="float: right; margin-top: 30px; margin-right: 30px;">Sign
+                    <a id="btnSignin" href="login.php" class="btn btn-danger navbar-btn" style="float: right; margin-top: 30px; margin-right: 30px;">Sign
                         In</a>
                 </div>
             </nav>

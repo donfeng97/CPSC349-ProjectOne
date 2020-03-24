@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                         </div>
 
-                        <a id="btnSignOut" href="sign_out.html" class="btn btn-danger navbar-btn"
+                        <a id="btnSignOut" href="login.php" class="btn btn-danger navbar-btn"
                             style="float: right; margin-top: 30px; margin-right: 30px;">Sign
                             Out</a>
                     </div>

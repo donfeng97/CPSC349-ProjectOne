@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        $sql = "SELECT id, username, password FROM users WHERE username = '$username' and password = '$password'";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: welcome.php");
+                            header("location: home_feed.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
@@ -108,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="navbar-header">
                         <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                     </div>
-                    <a id="btnSignin" href="welcome_page.html" class="btn btn-danger navbar-btn"
+                    <a id="btnSignin" href="index.php" class="btn btn-danger navbar-btn"
                         style="float: right; margin-top: 30px; margin-right: 30px;">Sign
                         Up</a>
                 </div>
@@ -134,7 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+            <p>Don't have an account? <a href="index.php">Sign up now</a>.</p>
         </form>
     </div> 
 </div>   
