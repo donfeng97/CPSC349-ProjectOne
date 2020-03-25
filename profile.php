@@ -66,18 +66,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div><label style="font-weight:bold; ">&emsp; Username: &nbsp
                             </label><?php echo $row1['username'] ?><br />
+                            <br>
                     </div>
 
                         <div><label style="font-weight:bold; ">&emsp; Email: &nbsp
                             </label><?php echo $row1['email'] ?><br />
+                            <br>
                     </div>
 
                         <div><label style="font-weight:bold; ">&emsp; School: &nbsp
                             </label><?php echo $row1['school'] ?><br />
+                            <br>
                     </div>
 
                         <div><label style="font-weight:bold; ">&emsp; Created At: &nbsp
                             </label><?php echo $row1['created_at'] ?><br />
+                            <br>
                     </div>
                 <?php
                     }
