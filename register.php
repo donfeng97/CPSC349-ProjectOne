@@ -1,10 +1,11 @@
 <?php
 // Include config file
+
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $email = "";
-$username_err = $password_err = $confirm_password_err = $email_err = "";
+$username = $password = $confirm_password = $email = $school = $avatar = "";
+$username_err = $password_err = $confirm_password_err = $email_err = $school_err = $avatar_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -15,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         //The following checks if the username has been used already
         // Prepare a select statement
-        $sql = "SELECT user_id FROM UserAccount WHERE user_name = ?";
+        $sql = "SELECT id FROM users WHERE username = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -51,10 +52,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         {
             //Check if email ends in "edu"
             $emailDomain = explode(".", trim($_POST["email"]));
-            if ($emailDomain[count($emailDomain)-1] == "com") {
+            if ($emailDomain[count($emailDomain)-1] == "edu") {
                 //The following checks if the email has been used already.
                 //Prepare sql statement
-                $sql = "SELECT user_id FROM UserAccount WHERE email = ?";
+                $sql = "SELECT id FROM users WHERE email = ?";
                 
                 if($stmt = mysqli_prepare($link, $sql)){
                     // Bind variables to the prepared statement as parameters
@@ -91,17 +92,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
-    } elseif(strlen(trim($_POST["password"])) < 1){
+    } elseif(strlen(trim($_POST["password"])) < 8){
         $password_err = "Password must contain at least eight characters.";
     } elseif(!preg_match('~[0-9]~', trim($_POST["password"]))){
         $password_err = "Password must contain at least one number.";
-    } /*elseif(!preg_match('/[\'^£$%&*()}{@#~?!><>,|=_+¬-]/', trim($_POST["password"]))){
+    } elseif(!preg_match('/[\'^£$%&*()}{@#~?!><>,|=_+¬-]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one special character.";
     } elseif(!preg_match('/[A-Z]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one uppercase letter.";
     } elseif(!preg_match('/[a-z]/', trim($_POST["password"]))){
         $password_err = "Password must contain at least one lowercase letter.";
-    } */else{
+    } else{
         $password = trim($_POST["password"]);
     }
     
@@ -114,26 +115,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $confirm_password_err = "Password did not match.";
         }
     }
+
+    // Make sure a school was selected
+    if($_POST["campus"] == "select") {
+        $school_err = "Please select a school.";
+    } else {
+        $school = $_POST["campus"];
+    }
+
+    // Grab the selected avatar
+    if(isset($_POST["avatar"])) {
+        $avatar = $_POST["avatar"];
+    } else {
+        $avatar_err = "Please select an avatar.";
+    }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err) && empty($school_err) && empty($avatar_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO UserAccount (user_name, password, email) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, email, school, avatar) VALUES (?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_email);
+            mysqli_stmt_bind_param($stmt, "sssss", $param_username, $param_password, $param_email, $param_school, $param_avatar);
             
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_email = $email;
+            $param_school = $school;
+            $param_avatar = $avatar;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                header("location: login.php");
+                header("location: welcome.php");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -178,7 +195,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <div>
         <div class="col-md-7">
-<?php include 'img_slide.php'?>
+            <?php include 'img_slide.php'?>
         </div>
         <div class="col-md-4">
             <h2 style="color:white;">Sign Up</h2>
@@ -190,7 +207,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <span class="help-block"><?php echo $username_err; ?></span>
                 </div>    
                 <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <!--Ask for email here -->
                     <label style="color:white;">Email Address</label>
                     <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
                     <span class="help-block"><?php echo $email_err; ?></span>
@@ -210,19 +226,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     * At least one special character.<br>
                     * At least one uppercase and one lowercase letter.</label>
                 </div>
-                <div> 
+                <div class="form-group <?php echo (!empty($school_err)) ? 'has-error' : ''; ?>">
                     <label style="color:white;" for="campus">Select Your Campus:</label><br />
+                    <span class="help-block"><?php echo $school_err; ?></span>
                         <select name="campus" id="campus" >
                             <option value="select"> -----------------Select One-----------------</option>
-                            <option value="csuf">
-                                California State University of Fullerton
-                            </option>
-                            <option value="csula">
-                                California State University of Los Angeles
-                            </option>
-                            <option value="csulb">
-                                California State University of Long Beach
-                            </option>
+                            <option value="csuf">California State University of Fullerton</option>
+                            <option value="csula">California State University of Los Angeles</option>
+                            <option value="csulb">California State University of Long Beach</option>
                             <option value="cpp"> Cal Poly Pomona </option>
                             <option value="fullcoll"> Fullerton College </option>
                             <option value="occ"> Orange County College </option>
@@ -230,20 +241,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <option value="ucr"> University of California Riverside </option>
                         </select> 
                 </div><br>
-                <div> 
+                <div class="form-group <?php echo (!empty($avatar_err)) ? 'has-error' : ''; ?>">
                     <h4 style="color:white;">Select your icon:</h4>
+                    <span class="help-block"><?php echo $avatar_err; ?></span>
                     <label class="avatar">
-                    <input type="radio" name="avatar">
-                    <img src="img/avatar1.png" alt="avatar1">
-                </label>
-                <label class="avatar">
-                    <input type="radio" name="avatar">
-                    <img src="img/avatar2.png" alt="avatar2">
-                </label>
-                <label class="avatar">
-                    <input type="radio" name="avatar">
-                    <img src="img/avatar3.png" alt="avatar3">
-                </label>
+                        <input type="radio" name="avatar" value="avatar1">
+                        <img src="img/avatar1.png" alt="avatar1">
+                    </label>
+                    <label class="avatar">
+                        <input type="radio" name="avatar" value="avatar2">
+                        <img src="img/avatar2.png" alt="avatar2">
+                    </label>
+                    <label class="avatar">
+                        <input type="radio" name="avatar" value="avatar3">
+                        <img src="img/avatar3.png" alt="avatar3">
+                    </label>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Submit">

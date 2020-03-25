@@ -171,18 +171,3 @@ li{
   display:block;
   clear:both;
  }
-
- .propanel{
-   font-size: 200%;
-   background-color: white;
-   text-align: left;
-   border-radius: 20px;
-   width:550px;
-   height:400px;
-   margin:auto;
-   position:absolute;
-   top:0;
-   left:0;
-   right:0;
-   bottom:0;
- }
