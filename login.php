@@ -4,7 +4,7 @@ session_start();
  
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
+    header("location: home_feed.php");
     exit;
 }
  
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: welcome.php");
+                            header("location: home_feed.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
@@ -108,14 +108,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="navbar-header">
                         <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                     </div>
-                    <a id="btnSignin" href="welcome_page.html" class="btn btn-danger navbar-btn"
+                    <a id="btnSignin" href="register.php" class="btn btn-danger navbar-btn"
                         style="float: right; margin-top: 30px; margin-right: 30px;">Sign
                         Up</a>
                 </div>
             </nav>
         </header>
     </div>
-    <hr>
+    
     <div class="center">
         <div >
         <h2>Login</h2>

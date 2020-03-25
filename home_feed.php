@@ -4,16 +4,19 @@ require_once "config.php";
 $message = $userID = "";
 $school = "csuf";
 
+
+
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(!empty(trim($_POST["post"]))) {
         $message = trim($_POST["post"]);
     }
 
-    //if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-        $userID = 5;
-    //} else {
-        //header("location: login.php");
-    //}
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+        $userID = $param_userID;
+    } else {
+        header("location: login.php");
+    }
 
     if (!empty($message)) {
         $sql = "INSERT INTO posts (message, school, userID) VALUES (?, ?, ?)";
@@ -65,30 +68,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <div class="navbar-header">
                             <img src="img/logo31.png" height="85" width="300" style="align-self:center;" />
                         </div>
-
-                        <a id="btnSignOut" href="sign_out.html" class="btn btn-danger navbar-btn"
-                            style="float: right; margin-top: 30px; margin-right: 30px;">Sign
+                        <a id="btnSignOut" href="logout.php" class="btn btn-danger navbar-btn"
+                            style="float: right; margin-top: 30px; margin-right: 10px;">Sign
                             Out</a>
+                            <a href="profile.php" class="btn btn-active navbar-btn "
+                            style="float: right; margin-top: 30px; margin-right: 10px; border-radius:50%">Profile</a>
                     </div>
                 </nav>
             </header>
         </div>
-        <hr>
-        <div id="page_start" class="start">
-            <div style="display: block;">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+        
+
+            <div style="display: block;" class="col-md-8">
+                        <form action="" method="get">
+                            <div style="background-color:thistle; width:auto; height:auto;" class="list-group-item d-flex justify-content-between align-items-center">
+                                <h2>Recent Posts</h2>
+                                <?php 
+                                if ($_SERVER["REQUEST_METHOD"] == "GET"){
+                                    $sql = "SELECT message FROM posts ORDER BY date_created";
+                                    $result = mysqli_query($link, $sql);
+                                    while ($row1 = mysqli_fetch_array($result)){
+                                       ?> 
+                                       <span class="list-group-item d-flex justify-content-between align-items-center">Message: </span><?php echo $row1['message']?>
+                                   </div> 
+                                   <?php 
+                                    }
+                                }
+                                ?>
+                        </form>
+</div>
+                        <div class="col-md-4" style="float:right;">
                         <form data-my-form="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                            <div class="form-group">
-                                <label for="studentForm">Post</label>
-                                <input class="form-control" name="post" id="pp" required>
+                            <div class="form-group" >
+                                <div style="color:thistle">
+                                <label for="studentForm" style="color:white;">Post</label><div>
+                                <input class="form-control" name="post" id="pp" style="width:350px; height:200px" required>
                             </div>
                             <input id="btnSignin" type="submit" class="btn btn-primary" value="Post"></input>
                         </form>
+</div>
                     </div>
                 </div>
             </div>
-            <!-- Bootstrap Badges -->
+            <!-- Bootstrap Badges 
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Why am I in quarantine?
@@ -103,8 +125,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <span class="badge badge-primary badge-pill">1</span>
                 </li>
             </ul>
-            <!-- Display posted data -->
+             Display posted data -->
         </div>
-    </div>
+
 </body>
 </html>
