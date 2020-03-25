@@ -177,7 +177,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         .wrapper{ width: 350px; padding: 20px; }
     </style>
 </head>
-<body>
+<body class="background">
 <div>
     <div id="page-wrapper">
         <header>

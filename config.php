@@ -8,10 +8,8 @@ server with default setting (user 'root' with no password) */
 //define('DB_NAME', 'ice_cube');
 $dbServer = "localhost";
 $dbUsername = "root";
-//$dbpassword = "1234";
-//$dbName = "icecube";
-$dbpassword = "";
-$dbName = "blahblah";
+$dbpassword = "1234";
+$dbName = "icecube";
 
 /* Attempt to connect to MySQL database */
 $link = mysqli_connect($dbServer, $dbUsername, $dbpassword, $dbName);

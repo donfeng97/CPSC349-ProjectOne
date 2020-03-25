@@ -2,8 +2,7 @@
 session_start();
 require_once "config.php";
 
-$message = $userID = "";
-$school = "csuf";
+$message = $userID = $school = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(!empty(trim($_POST["post"]))) {
@@ -12,6 +11,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
         $userID = $_SESSION["id"];
+       
+    } else {
+        header("location: login.php");
+    }
+
+    if(isset($_SESSION["school"])) {
+        $school = $_SESSION["school"];
     } else {
         header("location: login.php");
     }
@@ -50,15 +56,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="stylesheets/stylesheet.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <?php 
+    include 'includes/script.php';
+    include 'includes/style.php'?>
     <title>Home Feed!</title>
+
+
 </head>
 <body class="background">
     <div>
@@ -72,43 +75,43 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <a id="btnSignOut" href="logout.php" class="btn btn-danger navbar-btn"
                             style="float: right; margin-top: 30px; margin-right: 10px;">Sign
                             Out</a>
-                            <a href="profile.php" class="btn btn-active navbar-btn "
+                            <a href="profile.php" class="btn btn-primary navbar-btn "
                             style="float: right; margin-top: 30px; margin-right: 10px; border-radius:50%">Profile</a>
                     </div>
                 </nav>
             </header>
         </div>
         
-
-            <div style="display: block;" class="col-md-8" >
-                            <div style="background-color:thistle; width:auto; flex-wrap:wrap; height:500px" >
-                            <form method="get">
-                                <h2 style="color:white;">Recent Posts</h2><ul class="list-group">
-                                <?php 
+        <div class="col-md-7" style="float:left;">
+            <div>
+                    <h2 class="textalign">  &nbsp Recent Posts</h2>
+                        <ul class="list-group">
+                            <?php 
                                 if ($_SERVER["REQUEST_METHOD"] == "GET"){
-                                    $sql = "SELECT message , date_created FROM posts ORDER BY date_created DESC";
+                                    $sql = "SELECT message , date_created FROM posts ORDER BY date_created DESC LIMIT 5";
                                     $result = mysqli_query($link, $sql);
                                     while ($row1 = mysqli_fetch_array($result)){
-                                       ?> 
-                                        
-                                        <a class="list-group-item d-flex justify-content-between align-items-center" style="float:left;"><label style="font-weight:bold; font-size:large;">Message: &nbsp
-                                    </label><?php echo $row1['message']?><br/><?php echo $row1['date_created']?><br/></a>
-                                    
-                                   
-                                   <?php 
+                                        echo "<li class='list-group-item' style='background-color:#F7F4EA;float:left;margin-botton:0.1em;font-size:medium;border-radius:4px;'>";
+                                        echo "<label style='font-weight:bold;font-size:large;'> Message: &nbsp</label>";
+                                        echo $row1['message'];
+                                        echo"<br/><hr class='hrclass'>";
+                                        echo $row1['date_created'];
+                                        echo"</li><br/>";
                                     }
                                 }
-                                ?></ul></div> 
-                        </form>
-</div>
-                        <div class="col-md-4" style="float:right;">
+                            ?>
+                           
+                        </ul> 
+                </div> 
+            </div>
+                        <div class="col-md-5" style="float:right;">
                         <form data-my-form="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="form-group" style="padding:60px 0;">
-                                <div style="color:thistle;" style="float: right;flex-flow:row;height:90px;width: 400px;border: 3px;padding: 60px 0;">
-                                <label for="studentForm" style="color:white;">Post</label><div>
-                                <input class="form-control" name="post" id="pp" style="width:350px; height:200px" required>
-                            </div>
-                            <input id="btnSignin" type="submit" class="btn btn-primary" value="Post"></input>
+                                <div style="color:#C0B9DD;" style="float: right;flex-flow:row;height:90px;width: 500px;border: 3px;">
+                                <label for="studentForm" style="color:white;font-size:x-large;font-weight:bold;" class="allegreyafont">Post Here: </label><div>
+                                <textarea name="post" id="pp" class="textarea"required></textarea>
+                            </div><br/>
+                            <input id="btnSignin" type="submit" class="btn btn-primary btn-lg" style="float:right;" value="Post"></input>
                         </form>
 </div>
                     </div>
