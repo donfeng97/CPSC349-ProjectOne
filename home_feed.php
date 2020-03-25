@@ -75,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <a id="btnSignOut" href="logout.php" class="btn btn-danger navbar-btn"
                             style="float: right; margin-top: 30px; margin-right: 10px;">Sign
                             Out</a>
-                            <a href="profile2.php" class="btn btn-primary navbar-btn "
+                            <a href="profile.php" class="btn btn-primary navbar-btn "
                             style="float: right; margin-top: 30px; margin-right: 10px; border-radius:50%">Profile</a>
                     </div>
                 </nav>
