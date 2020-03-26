@@ -1,0 +1,21 @@
+//create a database named icecube
+
+
+CREATE TABLE users (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY,
+  username varchar(50) CHARACTER SET utf8mb4 NOT NULL UNIQUE,
+  password varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  email varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  created_at datetime DEFAULT CURRENT_TIMESTAMP,
+  school varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  avatar varchar(16) CHARACTER SET utf8mb4 NOT NULL
+) 
+
+
+CREATE TABLE posts (
+  id int(32) NOT NULL AUTO_INCREMENT PRIMARY,
+  message varchar(1028) CHARACTER SET utf8mb4 NOT NULL,
+  school varchar(16) CHARACTER SET utf8mb4 NOT NULL,
+  userID int(32) NOT NULL,
+  date_created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
