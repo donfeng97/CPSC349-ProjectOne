@@ -44,6 +44,17 @@ Start your MySQL server
 ### `cd /usr/local/mysql/bin`
 ### `sudo ./mysql -u root -p`
 
+
+
+Download phpMyAdmin [phpMyAdmin - Downloads](https://www.phpmyadmin.net/downloads/)
+Copy and paste it into Documents folder
+Rename the folder to phpMyAdmin
+
+### `cd /Library/Webserver/Documents`
+### `cd phpMyAdmin`
+### `sudo mkdir config`
+### `sudo chmod o+x config`
+
 Open localhost/phpMyAdmin/setup, set up a new server <br />
 Download Config<br />
 Copy/Paste config into config folder<br />
