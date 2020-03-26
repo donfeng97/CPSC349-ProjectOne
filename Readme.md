@@ -46,9 +46,9 @@ Start your MySQL server
 
 
 
-Download phpMyAdmin [phpMyAdmin - Downloads](https://www.phpmyadmin.net/downloads/)
-Copy and paste it into Documents folder
-Rename the folder to phpMyAdmin
+Download phpMyAdmin [phpMyAdmin - Downloads](https://www.phpmyadmin.net/downloads/) <br />
+Copy and paste it into Documents folder <br />
+Rename the folder to phpMyAdmin <br />
 
 ### `cd /Library/Webserver/Documents`
 ### `cd phpMyAdmin`
